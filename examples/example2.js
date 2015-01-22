@@ -1,12 +1,10 @@
 var csv = require('csv'),
     fs = require('fs')
    
-var sunrise = require('../lib/sunrise'),
-	skipfirst = require('../lib/skipfirst'),
-	print = require('../lib/print')
+var refine = require('../lib')
 
 fs.createReadStream('data/colorado5.csv')
     .pipe(csv.parse())
-    .pipe(skipfirst())
-    .pipe(sunrise(9))
-    .pipe(print(9))
+    .pipe(refine.skipfirst())
+    .pipe(refine.sunrise(9))
+    .pipe(refine.print())
