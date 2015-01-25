@@ -1,5 +1,5 @@
 var csv = require('csv'),
-    fs = require('fs')
+   fs = require('fs')
    
 var refine = require('../lib')
 
