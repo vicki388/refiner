@@ -210,4 +210,37 @@ describe('refine', function() {
         })
     })
 
+    describe('lowercase', function() {
+    it('should replace a uppercase letters with lowercase letters', function(done) {
+
+        streamify([
+            ['A', 'AA']               
+        ])
+            .pipe(refine.lowercase())
+            .pipe(assert.all(function(data) {
+                data[0].should.be.equal('a')
+            }))
+            .pipe(assert.end(done))
+
+        })
+    })
+
+    describe('uppercase', function() {
+    it('should replace a lowercase letters with uppercase letters', function(done) {
+
+        streamify([
+            ['a', 'aa']               
+        ])
+            .pipe(refine.uppercase())
+            .pipe(assert.all(function(data) {
+                data[0].should.be.equal('A')
+            }))
+            .pipe(assert.end(done))
+
+        })
+    })
+
+
+
+
 })
