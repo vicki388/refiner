@@ -1,4 +1,4 @@
-var csv = require('csv'),
+//var csv = require('csv'),
    fs = require('fs')
    
 var refine = require('../lib')
