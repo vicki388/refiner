@@ -191,5 +191,23 @@ describe('refine', function() {
         })
     })
 
+    describe('zipcode', function() {
+    it('zipcode(1) should replace a zipcode at column 1 with the city\'s name', function(done) {
+
+        streamify([
+            [0, '80302'],
+            [0, '20009']                
+        ])
+            .pipe(refine.zipcode(1))
+            .pipe(assert.first(function(data) {
+                data[1].should.be.equal('Boulder')
+            }))
+            .pipe(assert.second(function(data) {
+                data[1].should.be.equal('Washington')
+            }))
+            .pipe(assert.end(done))
+
+        })
+    })
 
 })
