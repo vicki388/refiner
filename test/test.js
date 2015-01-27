@@ -134,6 +134,28 @@ describe('refine', function() {
         })
     })
 
+    describe('translate', function() {
+        it('translate(1,20) should keep only rows whose value at column 1 is >= 20', function(done) {
+
+            streamify([
+                [0, 'hello', 2, 3],   
+                [0, 'goodbye', 2, 3],  // only this should remain    
+            ])
+                .pipe(refine.translate(1, 'en'. 'it'))
+                .pipe(assert.all(function(data) {
+                        .pipe(assert.first(function(data) {
+                    data[1].should.not.be.equal('hello')
+                }))
+                .pipe(assert.second(function(data) {
+                    data[1].should.not.be.equal('goodbye')
+                }))
+                }))
+                .pipe(assert.length(1))
+                .pipe(assert.end(done))
+
+        })
+    })
+
     describe('filter', function() {
         it('filter(1,/^a/) should keep only rows whose value at column 1 begins with the letter a', function(done) {
 
