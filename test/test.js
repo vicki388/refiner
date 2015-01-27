@@ -135,7 +135,8 @@ describe('refine', function() {
     })
 
     describe('translate', function() {
-        it('translate(1,20) should keep only rows whose value at column 1 is >= 20', function(done) {
+        it('translate(2,en,it) should change the english word in column 3 to its italian 
+            translation', function(done) {
 
             streamify([
                 [0, 'hello', 2, 3],   
@@ -148,6 +149,29 @@ describe('refine', function() {
                 }))
                 .pipe(assert.second(function(data) {
                     data[1].should.not.be.equal('goodbye')
+                }))
+                }))
+                .pipe(assert.length(1))
+                .pipe(assert.end(done))
+
+        })
+    })
+
+    describe('fuel', function() {
+        it('fuel(3) should return the latitude and longitude of the alternative fuel type 
+            code in column 4 ', function(done) {
+
+            streamify([
+                [0, 'E85', 2, 3],   
+                [0, 'CNG', 2, 3],  // only this should remain    
+            ])
+                .pipe(refine.fuel(1))
+                .pipe(assert.all(function(data) {
+                        .pipe(assert.first(function(data) {
+                    data[1].should.not.be.equal('E85')
+                }))
+                .pipe(assert.second(function(data) {
+                    data[1].should.not.be.equal('CNG')
                 }))
                 }))
                 .pipe(assert.length(1))
