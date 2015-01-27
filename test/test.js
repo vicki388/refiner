@@ -134,45 +134,6 @@ describe('refine', function() {
         })
     })
 
-    describe('translate', function() {
-        it('translate(1,en,it) should change the english word in column 2 to its italian translation', function(done) {
-
-            streamify([
-                [0, 'hello', 2, 3],   
-                [0, 'goodbye', 2, 3],  // only this should remain    
-            ])
-                .pipe(refine.translate(1, 'en', 'it'))
-                .pipe(assert.first(function(data) {
-                    data[1].should.not.be.equal('hello')
-                }))
-                .pipe(assert.second(function(data) {
-                    data[1].should.not.be.equal('goodbye')
-                }))
-                .pipe(assert.end(done))
-
-        })
-    })
-
-    describe('fuel', function() {
-        it('fuel(1) should return the latitude and longitude of the alternative fuel type code in column 2 ', function(done) {
-
-            streamify([
-                [0, 'E85', 2, 3],   
-                [0, 'CNG', 2, 3],  // only this should remain    
-            ])
-                .pipe(refine.fuel(1))
-                .pipe(assert.first(function(data) {
-                    data[1].should.not.be.equal('E85')
-                }))
-                .pipe(assert.second(function(data) {
-                    data[1].should.not.be.equal('CNG')
-                }))
-                .pipe(assert.end(done))
-
-        })
-    })
-    /*
-
     describe('filter', function() {
         it('filter(1,/^a/) should keep only rows whose value at column 1 begins with the letter a', function(done) {
 
@@ -229,6 +190,69 @@ describe('refine', function() {
 
         })
     })
-*/
+
+    describe('zipcode', function() {
+    it('zipcode(1) should replace a zipcode at column 1 with the city\'s name', function(done) {
+
+        streamify([
+            [0, '80302'],
+            [0, '20009']                
+        ])
+            .pipe(refine.zipcode(1))
+            .pipe(assert.first(function(data) {
+                data[1].should.be.equal('Boulder')
+            }))
+            .pipe(assert.second(function(data) {
+                data[1].should.be.equal('Washington')
+            }))
+            .pipe(assert.end(done))
+
+        })
+    })
+
+    describe('lowercase', function() {
+    it('should replace a uppercase letters with lowercase letters', function(done) {
+
+        streamify([
+            ['A', 'AA']               
+        ])
+            .pipe(refine.lowercase())
+            .pipe(assert.all(function(data) {
+                data[0].should.be.equal('a')
+            }))
+            .pipe(assert.end(done))
+
+        })
+    })
+
+    describe('uppercase', function() {
+    it('should replace a lowercase letters with uppercase letters', function(done) {
+
+        streamify([
+            ['a', 'aa']               
+        ])
+            .pipe(refine.uppercase())
+            .pipe(assert.all(function(data) {
+                data[0].should.be.equal('A')
+            }))
+            .pipe(assert.end(done))
+
+        })
+    })
+
+    describe('geocoder', function() {
+    it('should take an address and return latitude and longitude', function(done) {
+
+        streamify([
+            ['636 Arapahoe Ave Boulder Colorado']               
+        ])
+            .pipe(refine.geocoder())
+            .pipe(assert.all(function(data) {
+                data[0].should.be.equal('40.0126621')
+            }))
+            .pipe(assert.end(done))
+
+        })
+    })
 
 })
