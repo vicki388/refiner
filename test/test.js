@@ -6,7 +6,7 @@ var refine = require('../lib')
 
 describe('refine', function() {
 
-    describe('skipfirst()', function() {
+    /*describe('skipfirst()', function() {
         it('should skip the first row', function(done) {
 
             streamify([
@@ -133,52 +133,45 @@ describe('refine', function() {
 
         })
     })
-
+*/
     describe('translate', function() {
-        it('translate(2,en,it) should change the english word in column 3 to its italian 
-            translation', function(done) {
+        it('translate(1,en,it) should change the english word in column 2 to its italian translation', function(done) {
 
             streamify([
                 [0, 'hello', 2, 3],   
                 [0, 'goodbye', 2, 3],  // only this should remain    
             ])
-                .pipe(refine.translate(1, 'en'. 'it'))
-                .pipe(assert.all(function(data) {
-                        .pipe(assert.first(function(data) {
+                .pipe(refine.translate(1, 'en', 'it'))
+                .pipe(assert.first(function(data) {
                     data[1].should.not.be.equal('hello')
                 }))
                 .pipe(assert.second(function(data) {
                     data[1].should.not.be.equal('goodbye')
                 }))
-                }))
-                .pipe(assert.length(1))
                 .pipe(assert.end(done))
 
         })
     })
 
     describe('fuel', function() {
-        it('fuel(3) should return the latitude and longitude of the alternative fuel type 
-            code in column 4 ', function(done) {
+        it('fuel(1) should return the latitude and longitude of the alternative fuel type code in column 2 ', function(done) {
 
             streamify([
                 [0, 'E85', 2, 3],   
                 [0, 'CNG', 2, 3],  // only this should remain    
             ])
                 .pipe(refine.fuel(1))
-                .pipe(assert.all(function(data) {
-                        .pipe(assert.first(function(data) {
+                .pipe(assert.first(function(data) {
                     data[1].should.not.be.equal('E85')
                 }))
                 .pipe(assert.second(function(data) {
                     data[1].should.not.be.equal('CNG')
                 }))
-                }))
-                .pipe(assert.length(1))
                 .pipe(assert.end(done))
 
         })
     })
+    /*
 
     describe('filter', function() {
         it('filter(1,/^a/) should keep only rows whose value at column 1 begins with the letter a', function(done) {
@@ -236,6 +229,6 @@ describe('refine', function() {
 
         })
     })
-
+*/
 
 })
