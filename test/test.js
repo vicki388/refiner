@@ -6,7 +6,7 @@ var refine = require('../lib')
 
 describe('refine', function() {
 
-    /*describe('skipfirst()', function() {
+    describe('skipfirst()', function() {
         it('should skip the first row', function(done) {
 
             streamify([
@@ -133,7 +133,7 @@ describe('refine', function() {
 
         })
     })
-*/
+
     describe('translate', function() {
         it('translate(1,en,it) should change the english word in column 2 to its italian translation', function(done) {
 
