@@ -240,7 +240,19 @@ describe('refine', function() {
         })
     })
 
+    describe('geocoder', function() {
+    it('should take an address and return latitude and longitude', function(done) {
 
+        streamify([
+            ['636 Arapahoe Ave Boulder Colorado']               
+        ])
+            .pipe(refine.geocoder())
+            .pipe(assert.all(function(data) {
+                data[0].should.be.equal('40.0126621')
+            }))
+            .pipe(assert.end(done))
 
+        })
+    })
 
 })
